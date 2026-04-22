@@ -78,7 +78,25 @@
   "link": "https://www.wehuster.com/cet4/cet4_2025_12_3",
   "answer": "https://www.wehuster.com/cet4/cet4_2025_12_3_ans"
   }
-
-  
+  ],
+  "studyCards": [
+    {
+      "id": 1,
+      "title": "考研408",
+      "icon": "📚",
+      "desc": "计算机专业基础综合\n数据结构 · 计算机组成原理\n操作系统 · 计算机网络"
+    },
+    {
+      "id": 2,
+      "title": "考研英语",
+      "icon": "📖",
+      "desc": "英语一 · 英语二\n阅读理解 · 写作翻译\n完形填空 · 新题型"
+    },
+    {
+      "id": 3,
+      "title": "临考复习板块",
+      "icon": "🎯",
+      "desc": "冲刺押题 · 模拟测试\n错题回顾 · 时间规划\n心理调适 · 应试技巧"
+    }
   ]
 }

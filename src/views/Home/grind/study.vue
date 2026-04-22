@@ -1,68 +1,107 @@
 <template>
   <div class="study-container">
     <div class="bg-soft"></div>
-    <div class="card-container" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
-      <!-- 卡片主体：包含需要3D变形的元素 -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-main">
-            <div class="card-icon">📚</div>
-            <div class="card-title">考研408</div>
-            <div class="card-divider"></div>
-            <div class="card-desc">
-              计算机专业基础综合<br>
-              数据结构 · 计算机组成原理<br>
-              操作系统 · 计算机网络
+    <div class="cards-wrapper">
+      <div 
+        v-for="card in studyCards" 
+        :key="card.id"
+        class="card-container" 
+        @mouseenter="handleMouseEnter(card.id)" 
+        @mouseleave="handleMouseLeave(card.id)"
+      >
+        <!-- 卡片主体：包含需要3D变形的元素 -->
+        <div class="card">
+          <div class="card-content">
+            <div class="card-main">
+              <div class="card-icon">{{ card.icon }}</div>
+              <div class="card-title">{{ card.title }}</div>
+              <div class="card-divider"></div>
+              <div class="card-desc" v-html="card.desc.replace(/\n/g, '<br>')"></div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- 三个独立圆形按钮 - 完全不参与卡片3D变换，永远保持平整 -->
-      <div class="button-group">
-        <button class="circle-button study-btn" title="开始学习">
-          <span>📖</span>
-        </button>
-        <button class="circle-button practice-btn" title="刷题练习">
-          <span>📝</span>
-        </button>
-        <button class="circle-button review-btn" title="复习巩固">
-          <span>🔍</span>
-        </button>
+        
+        <!-- 三个独立圆形按钮 - 完全不参与卡片3D变换，永远保持平整 -->
+        <div class="button-group">
+          <button class="circle-button study-btn" title="开始学习">
+            <span>📖</span>
+          </button>
+          <button class="circle-button practice-btn" title="刷题练习">
+            <span>📝</span>
+          </button>
+          <button class="circle-button review-btn" title="复习巩固">
+            <span>🔍</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
-const isHovering = ref(false);
+// 从本地JSON文件加载数据
+const studyCards = ref([]);
 
-const handleMouseEnter = () => {
-  isHovering.value = true;
+const hoveringCardId = ref(null);
+
+const handleMouseEnter = (cardId) => {
+  hoveringCardId.value = cardId;
 };
 
-const handleMouseLeave = () => {
-  isHovering.value = false;
+const handleMouseLeave = (cardId) => {
+  hoveringCardId.value = null;
   // 强制重绘确保变形归位流畅无卡顿
-  const card = document.querySelector('.card');
+  const card = document.querySelector(`.card-container[data-id="${cardId}"] .card`);
   if (card) {
     void card.offsetHeight;
   }
 };
+
+// 加载数据
+onMounted(async () => {
+  try {
+    const response = await fetch('/src/resource/init.json');
+    const data = await response.json();
+    studyCards.value = data.studyCards || [];
+  } catch (error) {
+    console.error('Failed to load study cards:', error);
+    // 如果加载失败，使用默认数据
+    studyCards.value = [
+      {
+        id: 1,
+        title: "考研408",
+        icon: "📚",
+        desc: "计算机专业基础综合\n数据结构 · 计算机组成原理\n操作系统 · 计算机网络"
+      },
+      {
+        id: 2,
+        title: "考研英语",
+        icon: "📖",
+        desc: "英语一 · 英语二\n阅读理解 · 写作翻译\n完形填空 · 新题型"
+      },
+      {
+        id: 3,
+        title: "临考复习板块",
+        icon: "🎯",
+        desc: "冲刺押题 · 模拟测试\n错题回顾 · 时间规划\n心理调适 · 应试技巧"
+      }
+    ];
+  }
+});
 </script>
 
 <style scoped>
 .study-container {
-  min-height: 100vh;
-  background: radial-gradient(circle at 30% 10%, #0b0e1a, #03050b);
+  min-height: 50vh;
+  background: linear-gradient(135deg, #1a1f36, #0f1223, #1a1f36);
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: 'Segoe UI', 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
   overflow: hidden;
-  padding: 1.5rem;
+  padding: 2rem;
 }
 
 * {
@@ -84,10 +123,21 @@ const handleMouseLeave = () => {
   z-index: -1;
 }
 
+/* 卡片容器包装器 - flex布局 */
+.cards-wrapper {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: 100%;
+}
+
 /* 单卡片容器 - 完全居中，透视空间足够 */
 .card-container {
   perspective: 1400px;
-  width: 100%;
+  width: 30%;
   max-width: 360px;
   margin: 0 auto;
   cursor: default;
@@ -334,6 +384,27 @@ const handleMouseLeave = () => {
 }
 
 /* 响应式调整 */
+@media (max-width: 1200px) {
+  .cards-wrapper {
+    gap: 1.5rem;
+  }
+  
+  .card-container {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards-wrapper {
+    gap: 1rem;
+  }
+  
+  .card-container {
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
 @media (max-width: 500px) {
   .card-container {
     max-width: 300px;

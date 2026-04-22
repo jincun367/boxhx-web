@@ -81,10 +81,12 @@ const footerSchema = footerData.footer
   max-width: 1000px;
   margin: 0 auto 60px auto;
   padding: 30px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(20, 40, 40, 0.85);
   backdrop-filter: blur(10px);
   border-radius: 12px;
   color: white;
+  border: 1px solid rgba(66, 185, 131, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .placeholder-content {
@@ -92,19 +94,22 @@ const footerSchema = footerData.footer
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ccc;
+  color: #e0f0e0;
   font-size: 18px;
   margin-top: 20px;
+  text-align: center;
+  line-height: 1.6;
 }
 
 /* 板块标题样式 */
 h2 {
-  color: white;
+  color: #ffffff;
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* 分隔符样式 */
