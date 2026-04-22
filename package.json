@@ -1,5 +1,5 @@
 {
-  "name": "boxhx-web",
+  "name": "huixue",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,11 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.5.32"
+    "@chenglou/pretext": "^0.0.5",
+    "axios": "^1.15.2",
+    "element-plus": "^2.13.7",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.31",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.6",
-    "vite": "^8.0.8",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "sass": "^1.99.0",
+    "unplugin-auto-import": "^21.0.0",
+    "unplugin-vue-components": "^32.0.0",
+    "vite": "^8.0.3",
     "vite-plugin-vue-devtools": "^8.1.1"
   },
   "engines": {

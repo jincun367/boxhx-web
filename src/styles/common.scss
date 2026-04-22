@@ -1,0 +1,70 @@
+/* 把所有标签的内外边距清0 */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* em和i标签的斜体文字不倾斜 */
+em,
+i {
+    font-style: normal;
+}
+
+/* 去掉li标签的小圆点 */
+li {
+    list-style: none;
+}
+
+/* 图片的边框和底侧空白缝隙问题 */
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+/* 鼠标经过按钮时变成小手 */
+button {
+    cursor: pointer;
+}
+
+/* 链接的默认颜色和悬停颜色 */
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #c81623;
+}
+
+/* 按钮和输入框的字体设置 */
+button,
+input {
+    font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "宋体", sans-serif;
+}
+
+/* body的默认样式 */
+body {
+    -webkit-font-smoothing: antialiased;
+    background-color: #fff;
+    font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "宋体", sans-serif;
+    color: #666;
+}
+
+/* 隐藏元素的类 */
+hide,
+.none {
+    display: none;
+}
+
+/* 清除浮动的伪元素 */
+clearfix:after {
+    visibility: hidden;
+    clear: both;
+    display: block;
+    content: ".";
+    height: 0;
+}
+
+clearfix {
+    *zoom: 1;
+}

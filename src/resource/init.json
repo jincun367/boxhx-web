@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "123456",
+      "avatar": "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png",
+      "phone": "13800138000"
+    },
+    {
+      "id": 2,
+      "username": "test",
+      "email": "test@example.com",
+      "password": "123456",
+      "avatar": "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+      "phone": "13900139000"
+    }
+  ],
+  "Cettext":[
+  {
+  "id": 1,
+  "title": "2025年06月四级真题第1套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_06_1",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_06_1_ans"
+  },
+  {
+  "id": 2,
+  "title": "2025年06月四级真题第2套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_06_2",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_06_2_ans"
+  },
+  {
+  "id": 3,
+  "title": "2025年06月四级真题第3套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_06_3",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_06_3_ans"
+  },
+  {
+  "id": 4,
+  "title": "2025年12月四级真题第1套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_12_1",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_12_1_ans"
+  },
+  {
+  "id": 5,
+  "title": "2025年12月四级真题第2套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_12_2",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_12_2_ans"
+  },
+  {
+  "id": 6,
+  "title": "2025年12月四级真题第3套",
+  "subtitle": "含听力",
+  "description": "📚 本套真题包含完整的听力、阅读、写作和翻译部分，适合考生进行考前模拟练习。\n🎧 听力部分配有标准发音，帮助你熟悉考试节奏。",
+  "buttonText": "查看详情",
+  "answerText": "查看答案",
+  "link": "https://www.wehuster.com/cet4/cet4_2025_12_3",
+  "answer": "https://www.wehuster.com/cet4/cet4_2025_12_3_ans"
+  }
+
+  
+  ]
+}
