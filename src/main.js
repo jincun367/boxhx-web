@@ -3,5 +3,7 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'  
 import 'element-plus/dist/index.css' 
 import router from '@/router/routers.js' // 引入路由配置
+import { createPinia } from 'pinia'
 
-createApp(App).use(ElementPlus).use(router).mount('#app')
+const pinia = createPinia()
+createApp(App).use(ElementPlus).use(router).use(pinia).mount('#app')

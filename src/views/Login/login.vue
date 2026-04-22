@@ -216,8 +216,10 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { loginApi, registerApi } from '@/api/auth.js'
+import { useAnimationStore } from '@/stores/animation'
 
 const router = useRouter()
+const animationStore = useAnimationStore()
 const showRegister = ref(false)
 const loading = ref(false)
 const rememberMe = ref(false)
@@ -305,7 +307,7 @@ const handleLogin = async () => {
       }
       
       ElMessage.success('登录成功')
-      // 登录成功后跳转到首页
+      // 登录成功后直接跳转到首页，不再触发动画
       router.push('/')
     }
   } catch (error) {

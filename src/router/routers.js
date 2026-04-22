@@ -62,8 +62,12 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token')
   
-  if (to.meta.requiresAuth && !token) {
-    // 如果需要认证但没有token，则跳转到登录页
+  // 如果访问的是首页 (/)，无论是否有 token 都允许通过，以便显示开场动画
+  // 具体的登录态检查和跳转逻辑应在 Home.vue 组件内部根据动画播放状态处理
+  if (to.path === '/') {
+    next()
+  } else if (to.meta.requiresAuth && !token) {
+    // 其他需要认证但没有token的页面，跳转到登录页
     next('/login')
   } else if (to.path === '/login' && token) {
     // 如果已经登录但访问登录页，则跳转到首页

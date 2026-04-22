@@ -2,6 +2,7 @@
 import Navigation from './Nav/Navigation.vue'
 import Footer from './last/Footer.vue'
 import Cet from './Ct/Cet.vue'
+import Study from './grind/study.vue'
 import footerData from '@/resource/init.json'
 import { scrollToSection } from '@/hooks/load.js'
 
@@ -24,7 +25,7 @@ const footerSchema = footerData.footer
       <div id="postgraduate" class="content-section">
         <h2><span class="section-anchor" @click="scrollToSection('postgraduate')">#</span> 考研</h2>
         <hr class="hrstyle">
-        <div class="placeholder-content">考研内容区域</div>
+        <Study />
       </div>
       
       <!-- AI工具板块 -->
