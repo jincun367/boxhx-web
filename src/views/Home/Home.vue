@@ -3,6 +3,7 @@ import Navigation from './Nav/Navigation.vue'
 import Footer from './last/Footer.vue'
 import Cet from './Ct/Cet.vue'
 import Study from './grind/study.vue'
+import Aiuntil from './Ai/Aiuntil.vue'
 import footerData from '@/resource/init.json'
 import { scrollToSection } from '@/hooks/load.js'
 
@@ -32,7 +33,8 @@ const footerSchema = footerData.footer
       <div id="ai-tools" class="content-section">
         <h2><span class="section-anchor" @click="scrollToSection('ai-tools')">#</span> AI工具</h2>
         <hr class="hrstyle">
-        <div class="placeholder-content">AI工具内容区域</div>
+        <Aiuntil />
+        <hr class="hrstyle">
       </div>
       
       <!-- 学习计划板块 -->
