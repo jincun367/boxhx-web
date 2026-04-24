@@ -8,7 +8,10 @@ const profileForm = reactive({
   avatar: '',
   username: '',
   email: '',
-  phone: ''
+  phone: '',
+  bio: '',
+  skills: '',
+  interests: ''
 })
 
 // 表单规则
@@ -33,8 +36,27 @@ const formRef = ref()
 
 // 获取当前登录用户（简化处理，实际项目中应该根据token获取）
 const getCurrentUser = () => {
-  // 这里假设当前登录的是第一个用户，实际项目中应该根据token解析用户ID
+  // 首先尝试从localStorage获取用户数据
+  const storedUsers = localStorage.getItem('users')
+  if (storedUsers) {
+    try {
+      const users = JSON.parse(storedUsers)
+      return users[0] // 假设当前登录的是第一个用户
+    } catch (error) {
+      console.error('解析localStorage用户数据失败:', error)
+    }
+  }
+  // 如果localStorage中没有数据，从原始JSON文件获取
   return userData.users[0]
+}
+
+// 保存用户数据到localStorage
+const saveUsersToLocalStorage = (users) => {
+  try {
+    localStorage.setItem('users', JSON.stringify(users))
+  } catch (error) {
+    console.error('保存用户数据到localStorage失败:', error)
+  }
 }
 
 // 获取用户信息
@@ -46,6 +68,9 @@ const fetchUserInfo = () => {
       profileForm.username = currentUser.username
       profileForm.email = currentUser.email
       profileForm.phone = currentUser.phone || ''
+      profileForm.bio = currentUser.bio || '个人简介'
+      profileForm.skills = currentUser.skills || '前端开发, Vue, JavaScript'
+      profileForm.interests = currentUser.interests || '技术, 阅读, 音乐'
     }
   } catch (error) {
     ElMessage.error('获取用户信息失败')
@@ -64,24 +89,46 @@ const cancelEdit = () => {
   isEditing.value = false
 }
 
-// 保存编辑（模拟保存到init.json）
+// 保存编辑（保存到localStorage）
 const saveProfile = async () => {
   if (!formRef.value) return
   
   try {
     await formRef.value.validate()
     
-    // 模拟保存逻辑 - 在真实项目中这里会调用API
-    // 更新当前用户的模拟数据
-    const currentUser = getCurrentUser()
-    if (currentUser) {
-      currentUser.avatar = profileForm.avatar
-      currentUser.username = profileForm.username
-      currentUser.email = profileForm.email
-      currentUser.phone = profileForm.phone
+    // 获取当前用户数据
+    const storedUsers = localStorage.getItem('users')
+    let users = []
+    
+    if (storedUsers) {
+      try {
+        users = JSON.parse(storedUsers)
+      } catch (error) {
+        console.error('解析localStorage用户数据失败:', error)
+        // 如果解析失败，使用原始数据
+        users = [...userData.users]
+      }
+    } else {
+      // 如果localStorage中没有数据，使用原始数据
+      users = [...userData.users]
+    }
+    
+    // 更新第一个用户的数据
+    if (users.length > 0) {
+      users[0] = {
+        ...users[0],
+        avatar: profileForm.avatar,
+        username: profileForm.username,
+        email: profileForm.email,
+        phone: profileForm.phone,
+        bio: profileForm.bio,
+        skills: profileForm.skills,
+        interests: profileForm.interests
+      }
       
-      // 注意：在浏览器环境中无法真正写入文件
-      // 这里只是更新内存中的数据
+      // 保存到localStorage
+      saveUsersToLocalStorage(users)
+      
       ElMessage.success('个人信息更新成功')
       isEditing.value = false
     }
@@ -209,6 +256,59 @@ onMounted(() => {
               <el-button v-if="!isEditing" type="primary" size="small" @click="startEdit">修改</el-button>
             </div>
           </div>
+          
+          <!-- 个人简介盒子 -->
+          <div class="grid-item">
+            <div class="item-content">
+              <h3>个人简介</h3>
+              <el-form-item prop="bio">
+                <el-input 
+                  v-model="profileForm.bio" 
+                  :disabled="!isEditing"
+                  type="textarea"
+                  :rows="3"
+                  placeholder="请输入个人简介"
+                />
+              </el-form-item>
+            </div>
+            <div class="item-action">
+              <el-button v-if="!isEditing" type="primary" size="small" @click="startEdit">修改</el-button>
+            </div>
+          </div>
+          
+          <!-- 技能标签盒子 -->
+          <div class="grid-item">
+            <div class="item-content">
+              <h3>技能标签</h3>
+              <el-form-item prop="skills">
+                <el-input 
+                  v-model="profileForm.skills" 
+                  :disabled="!isEditing"
+                  placeholder="请输入技能标签，用逗号分隔"
+                />
+              </el-form-item>
+            </div>
+            <div class="item-action">
+              <el-button v-if="!isEditing" type="primary" size="small" @click="startEdit">修改</el-button>
+            </div>
+          </div>
+          
+          <!-- 兴趣爱好盒子 -->
+          <div class="grid-item">
+            <div class="item-content">
+              <h3>兴趣爱好</h3>
+              <el-form-item prop="interests">
+                <el-input 
+                  v-model="profileForm.interests" 
+                  :disabled="!isEditing"
+                  placeholder="请输入兴趣爱好，用逗号分隔"
+                />
+              </el-form-item>
+            </div>
+            <div class="item-action">
+              <el-button v-if="!isEditing" type="primary" size="small" @click="startEdit">修改</el-button>
+            </div>
+          </div>
         </div>
       </el-form>
       
@@ -224,29 +324,37 @@ onMounted(() => {
 <style scoped>
 .individual-container {
   padding: 20px;
-  background-color: #f5f7fa;
+  background-color: transparent;
   min-height: 100vh;
 }
 
 .individual-header {
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .individual-header h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #303133;
+  color: #ffffff;
   margin-bottom: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .individual-header p {
-  color: #606266;
+  color: #a0aec0;
   font-size: 14px;
 }
 
 .profile-card {
   max-width: 800px;
   margin: 0 auto;
+  background: rgba(20, 40, 40, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  color: white;
+  border: 1px solid rgba(66, 185, 131, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .profile-form {
@@ -261,19 +369,19 @@ onMounted(() => {
 }
 
 .grid-item {
-  background: #fff;
-  border: 1px solid #e4e7ed;
+  background: rgba(30, 50, 50, 0.8);
+  border: 1px solid rgba(66, 185, 131, 0.3);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
 .grid-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: rgba(66, 185, 131, 0.5);
 }
 
 .item-content {
@@ -283,7 +391,7 @@ onMounted(() => {
 .item-content h3 {
   font-size: 16px;
   font-weight: 500;
-  color: #303133;
+  color: #42b983;
   margin-bottom: 16px;
 }
 
@@ -306,11 +414,11 @@ onMounted(() => {
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #f0f2f5;
+  border: 3px solid rgba(66, 185, 131, 0.3);
 }
 
 .avatar-uploader :deep(.el-upload) {
-  border: 2px dashed #d9d9d9;
+  border: 2px dashed rgba(66, 185, 131, 0.3);
   border-radius: 50%;
   cursor: pointer;
   position: relative;
@@ -319,12 +427,12 @@ onMounted(() => {
 }
 
 .avatar-uploader :deep(.el-upload):hover {
-  border-color: #667eea;
+  border-color: #42b983;
 }
 
 .avatar-uploader-icon {
   font-size: 28px;
-  color: #909399;
+  color: #42b983;
   width: 100px;
   height: 100px;
   text-align: center;
@@ -346,31 +454,46 @@ onMounted(() => {
 
 /* 主题色适配 */
 :deep(.el-button--primary) {
-  background: linear-gradient(to right, #667eea, #764ba2);
+  background: linear-gradient(to right, #42b983, #2c6f5a);
   border: none;
 }
 
 :deep(.el-button--primary:hover) {
-  background: linear-gradient(to right, #5a6fd8, #6b4496);
+  background: linear-gradient(to right, #3a9d73, #255c4a);
 }
 
 :deep(.el-input__wrapper):focus-within {
-  box-shadow: 0 0 0 1px #667eea !important;
+  box-shadow: 0 0 0 1px #42b983 !important;
 }
 
 :deep(.el-form-item__label) {
   font-weight: 500;
-  color: #303133;
+  color: #a0aec0;
 }
 
 :deep(.el-input__wrapper),
 :deep(.el-textarea__inner) {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+:deep(.el-input__inner),
+:deep(.el-textarea__inner) {
+  color: #ffffff;
 }
 
 :deep(.el-input.is-disabled .el-input__wrapper),
 :deep(.el-textarea.is-disabled .el-textarea__inner) {
-  background-color: #f5f7fa;
-  color: #606266;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #a0aec0;
+}
+
+:deep(.el-checkbox__label) {
+  color: #a0aec0;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+  background-color: #42b983;
+  border-color: #42b983;
 }
 </style>

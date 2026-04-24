@@ -1,11 +1,31 @@
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue'
+import { ref, computed, nextTick, watch, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { removeToken } from '@/api/auth.js'
 import { ElMessageBox } from 'element-plus'
+// 导入load.js中的scrollToSection函数
+import { scrollToSection } from '@/hooks/load.js'
 
 const router = useRouter()
 const route = useRoute()
+
+// 用户头像
+const userAvatar = ref('https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png')
+
+// 获取用户头像
+const getUserAvatar = () => {
+  try {
+    const storedUsers = localStorage.getItem('users')
+    if (storedUsers) {
+      const users = JSON.parse(storedUsers)
+      if (users.length > 0 && users[0].avatar) {
+        userAvatar.value = users[0].avatar
+      }
+    }
+  } catch (error) {
+    console.error('获取用户头像失败:', error)
+  }
+}
 
 // 获取导航项引用
 const navItemRefs = ref([])
@@ -17,28 +37,70 @@ const activeIndex = computed(() => {
   return activeItem ? activeItem.index : '1'
 })
 
-// 导航项
+// 修改导航项，改为首页、资源中心、个人技术、评论
 const navItems = [
-  { index: '1', name: '四六级', path: '/cet' },
-  { index: '2', name: '考研', path: '/postgraduate' },
-  { index: '3', name: 'AI工具', path: '/ai-tools' },
-  { index: '4', name: '学习计划', path: '/study-plan' },
-  { index: '5', name: '个人技术', path: '/personal-tech' }
+  { index: '1', name: '首页', path: '/', sectionId: 'home' },
+  { index: '2', name: '资源中心', path: '/resources', sectionId: 'resources' },
+  { index: '3', name: '个人技术', path: '/blog', sectionId: 'personal-tech' },
+  { index: '4', name: '评论', path: '/comments', sectionId: 'comments' }
 ]
 
 // 下划线位置和宽度
 const indicatorStyle = ref({
   left: '0px',
-  width: '0px'
+  width: '0px',
+  transition: 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)' // 缓存过渡效果
 })
 
+// 节流函数，防止过于频繁的更新
+const throttle = (func, delay) => {
+  let timeoutId;
+  let lastExecTime = 0;
+  return function (...args) {
+    const currentTime = Date.now();
+    
+    if (currentTime - lastExecTime > delay) {
+      func.apply(this, args);
+      lastExecTime = currentTime;
+    } else {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+        lastExecTime = Date.now();
+      }, delay - (currentTime - lastExecTime));
+    }
+  };
+};
+
 // 处理导航点击
-const handleNavClick = (path) => {
-  router.push(path)
+const handleNavClick = (path, sectionId) => {
+  const currentPath = route.path
+  
+  if (currentPath === path) {
+    // 如果已经在当前页面，直接滚动到对应section
+    scrollToSection(sectionId)
+  } else {
+    // 如果是不同页面，先跳转路由
+    router.push(path).then(() => {
+      // 路由跳转完成后，检查是否需要滚动到特定section
+      // 资源中心和评论页面是独立页面，不需要滚动到section
+      if (path === '/resources' || path === '/comments') {
+        // 这些页面保持页面顶部
+        return
+      }
+      // 其他页面滚动到对应section
+      // 使用setTimeout确保DOM已更新
+      setTimeout(() => {
+        scrollToSection(sectionId)
+      }, 100)
+    }).catch((error) => {
+      console.error('路由跳转失败:', error)
+    })
+  }
 }
 
 // 更新下划线位置
-const updateIndicatorPosition = () => {
+const updateIndicatorPosition = throttle(() => {
   nextTick(() => {
     const activeIndexVal = activeIndex.value
     const activeItem = navItemRefs.value.find(item => item?.$el?.dataset?.index === activeIndexVal)
@@ -47,15 +109,23 @@ const updateIndicatorPosition = () => {
       const rect = activeItem.$el.getBoundingClientRect()
       const containerRect = activeItem.$el.parentElement.getBoundingClientRect()
       
-      indicatorStyle.value.left = `${rect.left - containerRect.left}px`
-      indicatorStyle.value.width = `${rect.width}px`
+      // 使用requestAnimationFrame优化UI更新
+      requestAnimationFrame(() => {
+        indicatorStyle.value = {
+          left: `${rect.left - containerRect.left}px`,
+          width: `${rect.width}px`,
+          transition: 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)'
+        }
+      })
     }
   })
-}
+}, 100) // 节流间隔100ms
 
 // 监听路由变化
 watch(() => route.path, () => {
   updateIndicatorPosition()
+  // 路由变化时检查用户头像是否更新
+  getUserAvatar()
 }, { immediate: true })
 
 // 处理退出登录
@@ -72,6 +142,42 @@ const handleLogout = () => {
     // 用户取消操作
   })
 }
+
+// 鼠标进入导航项时的效果
+const handleMouseEnter = (index) => {
+  const navItem = navItemRefs.value[index - 1]?.$el;
+  if (navItem) {
+    const rect = navItem.getBoundingClientRect();
+    const containerRect = navItem.parentElement.getBoundingClientRect();
+    
+    requestAnimationFrame(() => {
+      indicatorStyle.value = {
+        left: `${rect.left - containerRect.left}px`,
+        width: `${rect.width}px`,
+        transition: 'all 0.3s ease' // 更快的过渡效果
+      }
+    });
+  }
+};
+
+// 鼠标离开导航项时恢复原状
+const handleMouseLeave = () => {
+  updateIndicatorPosition(); // 恢复到激活项的位置
+};
+
+onMounted(() => {
+  // 初始化指示器位置
+  updateIndicatorPosition();
+  // 加载用户头像
+  getUserAvatar();
+});
+
+onUnmounted(() => {
+  // 清理定时器
+  if (typeof updateIndicatorPosition === 'function' && updateIndicatorPosition.timeoutId) {
+    clearTimeout(updateIndicatorPosition.timeoutId);
+  }
+});
 </script>
 
 <template>
@@ -103,7 +209,7 @@ const handleLogout = () => {
           v-for="item in navItems"
           :key="item.index"
           :index="item.index"
-          @click="handleNavClick(item.path)"
+          @click="handleNavClick(item.path, item.sectionId)"
           class="nav-item"
           :ref="el => navItemRefs[item.index - 1] = el"
           :data-index="item.index"
@@ -120,14 +226,14 @@ const handleLogout = () => {
       <div class="nav-right">
         <el-dropdown>
           <div class="user-info">
-            <el-avatar :size="36" :src="'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png'" />
+            <el-avatar :size="36" :src="userAvatar" />
             <span class="user-name">用户中心</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item icon="User" @click="handleNavClick('/profile')">个人资料</el-dropdown-item>
-              <el-dropdown-item icon="Setting" @click="handleNavClick('/settings')">设置</el-dropdown-item>
+              <el-dropdown-item icon="User" @click="handleNavClick('/profile', 'profile')">个人资料</el-dropdown-item>
+              <el-dropdown-item icon="Setting" @click="handleNavClick('/settings', 'settings')">设置</el-dropdown-item>
               <el-dropdown-item icon="CircleClose" divided @click="handleLogout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -235,7 +341,6 @@ const handleLogout = () => {
   bottom: 0;
   height: 3px;
   background-color: #42b983;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   border-radius: 2px;
 }
 

@@ -1,154 +1,72 @@
-<script setup>
-import Navigation from './Nav/Navigation.vue'
-import Footer from './last/Footer.vue'
-import Cet from './Ct/Cet.vue'
-import Study from './grind/study.vue'
-import Aiuntil from './Ai/Aiuntil.vue'
-import footerData from '@/resource/init.json'
-import { scrollToSection } from '@/hooks/load.js'
-
-// 提取footer数据
-const footerSchema = footerData.footer
-</script>
-
 <template>
-  <div class="home-layout">
-    <Navigation />
-    <div class="main-content">
-      <!-- 四六级板块 -->
-      <div id="cet" class="content-section">
-        <h2><span class="section-anchor" @click="scrollToSection('cet')">#</span> 四六级</h2>
-        <hr class="hrstyle">
-        <Cet />
-      </div>
-      
-      <!-- 考研板块 -->
-      <div id="postgraduate" class="content-section">
-        <h2><span class="section-anchor" @click="scrollToSection('postgraduate')">#</span> 考研</h2>
-        <hr class="hrstyle">
-        <Study />
-      </div>
-      
-      <!-- AI工具板块 -->
-      <div id="ai-tools" class="content-section">
-        <h2><span class="section-anchor" @click="scrollToSection('ai-tools')">#</span> AI工具</h2>
-        <hr class="hrstyle">
-        <Aiuntil />
-        <hr class="hrstyle">
-      </div>
-      
-      <!-- 学习计划板块 -->
-      <div id="study-plan" class="content-section">
-        <h2><span class="section-anchor" @click="scrollToSection('study-plan')">#</span> 学习计划</h2>
-        <hr class="hrstyle">
-        <div class="placeholder-content">学习计划内容区域</div>
-      </div>
-      
-      <!-- 个人技术板块 -->
-      <div id="personal-tech" class="content-section">
-        <h2><span class="section-anchor" @click="scrollToSection('personal-tech')">#</span> 个人技术</h2>
-        <hr class="hrstyle">
-        <div class="placeholder-content">个人技术内容区域</div>
-      </div>
+  <div class="home-page">
+    <h1>欢迎来到首页</h1>
+    <p>这里是慧学教育的首页，为您提供优质的学习资源和工具。</p>
+    <div class="content-section">
+      <h2>我们的服务</h2>
+      <ul>
+        <li>学习资源中心</li>
+        <li>AI智能辅助工具</li>
+        <li>个性化学习计划</li>
+        <li>专业博客文章</li>
+      </ul>
     </div>
-    <Footer :schema="footerSchema">
-      <template #highlight>
-        <div class="highlight-content">
-          <h3>慧学教育</h3>
-          <p>一站式智能学习平台<br/>让知识触手可及</p>
-        </div>
-      </template>
-    </Footer>
   </div>
 </template>
 
-<style scoped>
-.home-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+<script>
+export default {
+  name: 'HomePage'
 }
-.hrstyle{
-  border: 0;  /* 清除默认边框，防止样式干扰 */
-  border-top: 2px solid #42b983; /* 直接设置上边框为想要的颜色 */
+</script>
+
+<style scoped>
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: calc(100vh - 128px); /* 减去导航栏和页脚的高度 */
 }
 
-.main-content {
-  flex: 1;
-  padding: 40px 20px;
-  background-color: transparent;
+.home-page h1 {
+  color: #333;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home-page p {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
 }
 
 .content-section {
-  max-width: 1000px;
-  margin: 0 auto 60px auto;
-  padding: 30px;
-  background: rgba(20, 40, 40, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  color: white;
-  border: 1px solid rgba(66, 185, 131, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.placeholder-content {
-  min-height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #e0f0e0;
-  font-size: 18px;
-  margin-top: 20px;
-  text-align: center;
-  line-height: 1.6;
-}
-
-/* 板块标题样式 */
-h2 {
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-/* 分隔符样式 */
-.content-section + .content-section {
   margin-top: 40px;
 }
 
-/* 板块锚点样式 */
-.section-anchor {
-  cursor: pointer;
+.content-section h2 {
   color: #42b983;
-  margin-right: 8px;
-  font-weight: bold;
-  transition: color 0.2s ease;
-}
-
-.section-anchor:hover {
-  color: #67c29c;
-  text-decoration: underline;
-}
-
-/* Highlight slot 样式 */
-.highlight-content {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.highlight-content h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: white;
+.content-section ul {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
 }
 
-.highlight-content p {
-  font-size: 14px;
-  opacity: 0.9;
-  color: white;
-  line-height: 1.4;
+.content-section li {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  font-size: 1.1rem;
 }
 </style>

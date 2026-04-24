@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home/Home.vue'),
+    component: () => import('@/views/Home/home.vue'),
     meta: { requiresAuth: true } // 需要认证才能访问
   },
   {
@@ -21,33 +21,21 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/cet',
-    name: 'CET',
-    component: () => import('@/views/Home/Home.vue'),
+    path: '/resources',
+    name: 'Resources',
+    component: () => import('@/views/Resources/Resources.vue'),
     meta: { requiresAuth: true }
   },
   {
-    path: '/postgraduate',
-    name: 'Postgraduate',
-    component: () => import('@/views/Home/Home.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/ai-tools',
-    name: 'AITools',
-    component: () => import('@/views/Home/Home.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/study-plan',
-    name: 'StudyPlan',
-    component: () => import('@/views/Home/Home.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/personal-tech',
+    path: '/blog',
     name: 'PersonalTech',
-    component: () => import('@/views/Home/Home.vue'),
+    component: () => import('@/views/blog/myblog/blogtext.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/comments',
+    name: 'Comments',
+    component: () => import('@/views/comments/Comments.vue'),
     meta: { requiresAuth: true }
   }
 ]

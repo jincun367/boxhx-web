@@ -58,7 +58,7 @@ export const registerApi = (data) => {
 }
 <!-- src/views/Login/login.vue -->
 <template>
-  <div class="auth-container">
+  <div class="auth-container" data-test="login-container">
     <div class="auth-wrapper" :class="{ 'show-register': showRegister }">
       <!-- 登录表单 -->
       <div class="auth-panel login-panel">
