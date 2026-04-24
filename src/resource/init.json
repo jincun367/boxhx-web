@@ -103,56 +103,56 @@
     {
       "id": 1,
       "name": "文心一言",
-      "darkImage": "src/assets/AIimage/文心一言_an.png",
-      "lightImage": "src/assets/AIimage/文心一言_light.png"
+      "darkImage": "@/assets/AIimage/文心一言_an.png",
+      "lightImage": "@/assets/AIimage/文心一言_light.png"
     },
     {
       "id": 2,
       "name": "ChatGPT",
-      "darkImage": "src/assets/AIimage/chatgpt_an.png",
-      "lightImage": "src/assets/AIimage/chatgpt_light.png"
+      "darkImage": "@/assets/AIimage/chatgpt_an.png",
+      "lightImage": "@/assets/AIimage/chatgpt_light.png"
     },
     {
       "id": 3,
       "name": "Claude",
-      "darkImage": "src/assets/AIimage/Claude_an.png",
-      "lightImage": "src/assets/AIimage/Claude_light.png"
+      "darkImage": "@/assets/AIimage/Claude_an.png",
+      "lightImage": "@/assets/AIimage/Claude_light.png"
     },
     {
       "id": 4,
       "name": "Deepseek",
-      "darkImage": "src/assets/AIimage/deepseek_an.png",
-      "lightImage": "src/assets/AIimage/deepseek_light.png"
+      "darkImage": "@/assets/AIimage/deepseek_an.png",
+      "lightImage": "@/assets/AIimage/deepseek_light.png"
     },
     {
       "id": 5,
       "name": "Doubao",
-      "darkImage": "src/assets/AIimage/doubao_an.png",
-      "lightImage": "src/assets/AIimage/doubao_light.png"
+      "darkImage": "@/assets/AIimage/doubao_an.png",
+      "lightImage": "@/assets/AIimage/doubao_light.png"
     },
     {
       "id": 6,
       "name": "AI工具 6",
-      "darkImage": "src/assets/AIimage/Grok_an.png",
-      "lightImage": "src/assets/AIimage/Grok_light.png"
+      "darkImage": "@/assets/AIimage/Grok_an.png",
+      "lightImage": "@/assets/AIimage/Grok_light.png"
     },
     {
       "id": 7,
       "name": "Kimi",
-      "darkImage": "src/assets/AIimage/kimi_an.png",
+      "darkImage": "@/assets/AIimage/kimi_an.png",
       "lightImage": "src/assets/AIimage/kimi_light.png"
     },
     {
       "id": 8,
       "name": "Lingma",
-      "darkImage": "src/assets/AIimage/lingma_an.png",
-      "lightImage": "src/assets/AIimage/lingma_light.png"
+      "darkImage": "@/assets/AIimage/lingma_an.png",
+      "lightImage": "@/assets/AIimage/lingma_light.png"
     },
     {
       "id": 9,
       "name": "Midjourney",
-      "darkImage": "src/assets/AIimage/Midjourney_an.png",
-      "lightImage": "src/assets/AIimage/Midjourney_light.png"
+      "darkImage": "@/assets/AIimage/Midjourney_an.png",
+      "lightImage": "@/assets/AIimage/Midjourney_light.png"
     }
   ]
 }
