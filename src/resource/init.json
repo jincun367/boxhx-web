@@ -140,7 +140,7 @@
       "id": 7,
       "name": "Kimi",
       "darkImage": "@/assets/AIimage/kimi_an.png",
-      "lightImage": "src/assets/AIimage/kimi_light.png"
+      "lightImage": "@/assets/AIimage/kimi_light.png"
     },
     {
       "id": 8,
