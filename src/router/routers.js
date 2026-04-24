@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home/Home.vue'),
+    component: () => import('@/views/Home/home.vue'),
     meta: { requiresAuth: true } // 需要认证才能访问
   },
   {
