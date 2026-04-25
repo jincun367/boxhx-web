@@ -2,8 +2,23 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+/* 在 common.scss 或全局样式文件中 */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    /* 解决水平滚动条 */
+    overscroll-behavior: none;
+    /* 防止滚动穿透 */
 }
 
+#app {
+    width: 100%;
+    height: 100%;
+}
 /* em和i标签的斜体文字不倾斜 */
 em,
 i {

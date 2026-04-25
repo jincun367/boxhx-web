@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+// import './styles/reset.scss' // 必须放在最顶部！
+import './styles/common.scss'
 import App from './App.vue'
 import ElementPlus from 'element-plus'  
 import 'element-plus/dist/index.css' 

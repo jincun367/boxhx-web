@@ -132,7 +132,7 @@
     },
     {
       "id": 6,
-      "name": "AI工具 6",
+      "name": "Grok",
       "darkImage": "@/assets/AIimage/Grok_an.png",
       "lightImage": "@/assets/AIimage/Grok_light.png"
     },

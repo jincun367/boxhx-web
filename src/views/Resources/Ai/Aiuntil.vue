@@ -1,62 +1,38 @@
 <script setup>
 import { ref } from 'vue'
 import initData from '@/resource/init.json'
+import { imageMap, getCurrentImage, useHoveredIndex } from '@/hooks/aiuntils.js'
 
-// 显式导入所有 AI 工具图片，确保 Vite 打包时包含它们
-import ClaudeAn from '@/assets/AIimage/Claude_an.png'
-import ClaudeLight from '@/assets/AIimage/Claude_light.png'
-import GrokAn from '@/assets/AIimage/Grok_an.png'
-import GrokLight from '@/assets/AIimage/Grok_light.png'
-import MidjourneyAn from '@/assets/AIimage/Midjourney_an.png'
-import MidjourneyLight from '@/assets/AIimage/Midjourney_light.png'
-import ChatgptAn from '@/assets/AIimage/chatgpt_an.png'
-import ChatgptLight from '@/assets/AIimage/chatgpt_light.png'
-import DeepseekAn from '@/assets/AIimage/deepseek_an.png'
-import DeepseekLight from '@/assets/AIimage/deepseek_light.png'
-import DoubaoAn from '@/assets/AIimage/doubao_an.png'
-import DoubaoLight from '@/assets/AIimage/doubao_light.png'
-import KimiAn from '@/assets/AIimage/kimi_an.png'
-import KimiLight from '@/assets/AIimage/kimi_light.png'
-import LingmaAn from '@/assets/AIimage/lingma_an.png'
-import LingmaLight from '@/assets/AIimage/lingma_light.png'
-import WenxinyiyanAn from '@/assets/AIimage/文心一言_an.png'
-import WenxinyiyanLight from '@/assets/AIimage/文心一言_light.png'
-
-// 图片路径映射
-const imageMap = {
-  '@/assets/AIimage/Claude_an.png': ClaudeAn,
-  '@/assets/AIimage/Claude_light.png': ClaudeLight,
-  '@/assets/AIimage/Grok_an.png': GrokAn,
-  '@/assets/AIimage/Grok_light.png': GrokLight,
-  '@/assets/AIimage/Midjourney_an.png': MidjourneyAn,
-  '@/assets/AIimage/Midjourney_light.png': MidjourneyLight,
-  '@/assets/AIimage/chatgpt_an.png': ChatgptAn,
-  '@/assets/AIimage/chatgpt_light.png': ChatgptLight,
-  '@/assets/AIimage/deepseek_an.png': DeepseekAn,
-  '@/assets/AIimage/deepseek_light.png': DeepseekLight,
-  '@/assets/AIimage/doubao_an.png': DoubaoAn,
-  '@/assets/AIimage/doubao_light.png': DoubaoLight,
-  '@/assets/AIimage/kimi_an.png': KimiAn,
-  '@/assets/AIimage/kimi_light.png': KimiLight,
-  '@/assets/AIimage/lingma_an.png': LingmaAn,
-  '@/assets/AIimage/lingma_light.png': LingmaLight,
-  '@/assets/AIimage/文心一言_an.png': WenxinyiyanAn,
-  '@/assets/AIimage/文心一言_light.png': WenxinyiyanLight,
-  'src/assets/AIimage/kimi_light.png': KimiLight
+// AI 工具官方地址映射
+const aiToolUrls = {
+  '文心一言': 'https://yiyan.baidu.com/',
+  'ChatGPT': 'https://chatgpt.com/',
+  'Claude': 'https://claude.ai/',
+  'Deepseek': 'https://deepseek.com/',
+  'Doubao': 'https://www.doubao.com/',
+  'AI工具 6': 'https://x.com/grok',
+  'Kimi': 'https://kimi.moonshot.cn/',
+  'Lingma': 'https://www.lingma.ai/',
+  'Midjourney': 'https://www.midjourney.com/'
 }
 
 // 从 init.json 中获取 AI 工具数据
 const aiTools = initData.aiTools
 
 // 当前悬停的图片索引
-const hoveredIndex = ref(-1)
+const hoveredIndex = useHoveredIndex()
 
 // 获取当前应该显示的图片路径
-const getCurrentImage = (index) => {
-  const path = hoveredIndex.value === index 
-    ? aiTools[index].lightImage 
-    : aiTools[index].darkImage
-  return imageMap[path] || path
+const getCurrentImageWrapper = (index) => {
+  return getCurrentImage(aiTools, hoveredIndex.value, index)
+}
+
+// 处理 AI 工具点击事件
+const handleAiToolClick = (name) => {
+  const url = aiToolUrls[name]
+  if (url) {
+    window.open(url, '_blank')
+  }
 }
 </script>
 
@@ -68,10 +44,11 @@ const getCurrentImage = (index) => {
       class="ai-image-item"
       @mouseenter="hoveredIndex = index"
       @mouseleave="hoveredIndex = -1"
+      @click="handleAiToolClick(tool.name)"
     >
       <!-- 直接使用 src 而不是 data-src，确保切换正常工作 -->
       <img 
-        :src="getCurrentImage(index)"
+        :src="getCurrentImageWrapper(index)"
         :alt="tool.name"
         class="ai-image"
         loading="lazy"

@@ -3,22 +3,25 @@
     <div class="sidebar-content">
       <ul class="nav-list">
         <li class="nav-item" @click="handleScrollToSection('cet')" title="四六级">
-          <i class="icon icon-cet">#</i>
-          <span class="nav-text sr-only">四六级</span>
+          <div class="nav-item-content">
+            <div class="icon icon-cet"></div>
+          </div>
         </li>
         <li class="nav-item" @click="handleScrollToSection('postgraduate')" title="考研">
-          <i class="icon icon-postgraduate">#</i>
-          <span class="nav-text sr-only">考研</span>
+          <div class="nav-item-content">
+            <div class="icon icon-postgraduate"></div>
+          </div>
         </li>
         <li class="nav-item" @click="handleScrollToSection('ai-tools')" title="AI工具">
-          <i class="icon icon-ai">#</i>
-          <span class="nav-text sr-only">AI工具</span>
+          <div class="nav-item-content">
+            <div class="icon icon-ai"></div>
+          </div>
         </li>
         <li class="nav-item" @click="handleScrollToSection('study-plan')" title="学习计划">
-          <i class="icon icon-study-plan">#</i>
-          <span class="nav-text sr-only">学习计划</span>
+          <div class="nav-item-content">
+            <div class="icon icon-study-plan"></div>
+          </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -49,72 +52,98 @@ const handleScrollToSection = (sectionId) => {
     });
   }
 };
-
-
 </script>
 
 <style scoped>
 .sidebar {
   position: fixed;
-  right: 20px;
+  right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  width: 80px; /* 减小宽度以适应纯图标布局 */
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 99;
+  width: 50px;
+  background: linear-gradient(135deg, rgba(30, 40, 50, 0.9), rgba(20, 30, 40, 0.95));
+  backdrop-filter: blur(15px);
+  border-radius: 80px;
+  padding: 20px 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(66, 185, 131, 0.2);
+  z-index: 999;
   transition: all 0.3s ease;
 }
 
 .sidebar:hover {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(135deg, rgba(30, 40, 50, 0.95), rgba(20, 30, 40, 1));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(66, 185, 131, 0.4);
 }
 
 .sidebar-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
+
+
 
 .nav-list {
   list-style: none;
   padding: 0;
-  margin: 0 0 25px 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .nav-item {
-  display: flex;
-  align-items: center;
-  padding: 12px 15px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #fff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:10px 0;
 }
 
-.nav-item:hover {
-  background: rgba(66, 185, 131, 0.2);
-  transform: translateX(5px);
-}
 
 .icon {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
-  text-align: center;
-  background: #42b983;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
-  font-style: normal;
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.icon-cet {
+  background: linear-gradient(135deg, #42b983, #35495e);
   color: white;
+}
+
+.icon-postgraduate {
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+}
+
+.icon-ai {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+}
+
+.icon-study-plan {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+}
+
+.icon:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .icon-cet::before {
@@ -122,7 +151,7 @@ const handleScrollToSection = (sectionId) => {
 }
 
 .icon-postgraduate::before {
-  content: "🎓";
+  content: "📖";
 }
 
 .icon-ai::before {
@@ -133,30 +162,26 @@ const handleScrollToSection = (sectionId) => {
   content: "📅";
 }
 
-.icon-personal-tech::before {
-  content: "💻";
-}
-
-.nav-text {
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+.nav-item:hover .icon {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 
-/* sr-only 类用于屏幕阅读器，保持可访问性 */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+
+
+
+
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 
@@ -165,16 +190,83 @@ const handleScrollToSection = (sectionId) => {
 @media (max-width: 1200px) {
   .sidebar {
     position: fixed;
-    bottom: 20px;
+    bottom: 30px;
     top: auto;
     right: 50%;
     transform: translateX(50%);
-    width: 90px;
-    max-width: 90px;
+    width: 280px;
+    padding: 15px;
+    flex-direction: row;
+    border-radius: 25px;
   }
   
-  .sidebar:hover {
-    width: 90px; /* 不再扩展宽度 */
+  .sidebar-content {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
   }
+  
+  .sidebar-header {
+    display: none;
+  }
+  
+  .nav-list {
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .nav-item {
+    min-width: 60px;
+    border-radius: 50%;
+  }
+  
+  .nav-item-content {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .nav-item:hover {
+    transform: scale(1.05);
+  }
+  
+
+  
+  .sidebar:hover {
+    width: 280px;
+    transform: translateX(50%) scale(1.05);
+  }
+  
+  .sidebar:hover .nav-item {
+    transform: none;
+  }
+  
+  .sidebar-footer {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 240px;
+    padding: 12px;
+  }
+  
+  .nav-item {
+    min-width: 50px;
+  }
+  
+  .nav-item-content {
+    padding: 8px 6px;
+  }
+  
+  .icon {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  
+
 }
 </style>
