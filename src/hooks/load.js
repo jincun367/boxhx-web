@@ -46,21 +46,33 @@ export const scrollToSection = (elementId) => {
     return;
   }
   
-  // 获取导航栏高度
-  const navbarHeight = getNavbarHeight();
+  // 使用原生 scrollIntoView API
+  targetElement.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+};
+
+/**
+ * 滚动到指定元素位置（使其顶部距离导航栏底部5px）
+ * @param {string} elementId - 目标元素的ID
+ */
+export const scrollToSectionWithSpacing = (elementId) => {
+  if (!elementId) {
+    console.warn('scrollToSectionWithSpacing: elementId is required');
+    return;
+  }
   
-  // 使用getBoundingClientRect()获取更准确的元素位置
-  const targetRect = targetElement.getBoundingClientRect();
-  const currentScrollY = window.scrollY || window.pageYOffset;
+  const targetElement = document.getElementById(elementId);
+  if (!targetElement) {
+    console.warn(`scrollToSectionWithSpacing: Element with id "${elementId}" not found`);
+    return;
+  }
   
-  // 计算目标位置（考虑sticky导航栏）
-  const targetPosition = currentScrollY + targetRect.top - navbarHeight;
-  
-  
-  // 平滑滚动到目标位置
-  window.scrollTo({
-    top: targetPosition,
-    behavior: 'smooth'
+  // 使用原生 scrollIntoView API
+  targetElement.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
   });
 };
 
@@ -85,6 +97,7 @@ export const initScrollListeners = () => {
 // 默认导出
 export default {
   scrollToSection,
+  scrollToSectionWithSpacing,
   initScrollListeners,
   getNavbarHeight
 };

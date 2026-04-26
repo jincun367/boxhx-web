@@ -32,32 +32,18 @@ import { defineProps } from 'vue';
 import { scrollToSection } from '@/hooks/load.js'
 
 // 接收从父组件传入的 scrollToSection 方法
+
+// 接收从父组件传入的 scrollToSection 方法
 const props = defineProps({
   scrollToSection: {
     type: Function,
-    required: false,
-    default: null
+    required: true
   }
 });
 
-// 使用传入的 scrollToSection 方法或提供默认实现
+// 直接调用传入的函数
 const handleScrollToSection = (sectionId) => {
-  // 优先使用传入的有效函数
-  if (typeof props.scrollToSection === 'function') {
-    props.scrollToSection(sectionId);
-    return;
-  }
-
-  // 原生 fallback（更可靠）
-  const element = document.getElementById(sectionId);
-  if (element) {
-    element.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    });
-  } else {
-    console.warn(`[Sidebar] Section #${sectionId} not found`);
-  }
+  props.scrollToSection(sectionId);
 };
 </script>
 

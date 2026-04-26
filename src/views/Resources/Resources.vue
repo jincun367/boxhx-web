@@ -4,7 +4,10 @@ import Study from './grind/study.vue'
 import Aiuntil from './Ai/Aiuntil.vue'
 import StudyPlan from './plan/studyplan.vue'
 import SideBar from './side/sidebar.vue'  // 导入资源中心专属侧边栏组件
-import { scrollToSection } from '@/hooks/load.js'
+import { scrollToSectionWithSpacing } from '@/hooks/load.js'
+
+// 重命名函数以便在模板中使用
+const scrollToResourceSection = scrollToSectionWithSpacing;
 
 </script>
 
@@ -80,6 +83,8 @@ import { scrollToSection } from '@/hooks/load.js'
   color: white;
   border: 1px solid rgba(66, 185, 131, 0.3);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* 添加scroll-margin-top来处理导航栏间距 */
+  scroll-margin-top: 90px; /* 导航栏高度64px + 5px间距 */
 }
 
 .placeholder-content {
