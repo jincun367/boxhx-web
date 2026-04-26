@@ -185,7 +185,7 @@ onMounted(async () => {
   position: relative;
   width: 100%;
   height: 100%;
-  padding: 2rem 1.8rem;
+  padding: 0.7rem 1.3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -312,13 +312,14 @@ onMounted(async () => {
   left: 20px;
   z-index: 10;
   display: flex;
-  gap: 16px;
+  gap: 8px;
   pointer-events: auto;
 }
 
+
 .circle-button {
-  width: 56px;
-  height: 56px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(20, 24, 45, 0.85);
   backdrop-filter: blur(12px);
@@ -329,7 +330,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 0.8rem;
   color: #e2e8ff;
   will-change: transform;
 }

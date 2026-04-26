@@ -29,6 +29,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
+import { scrollToSection } from '@/hooks/load.js'
 
 // 接收从父组件传入的 scrollToSection 方法
 const props = defineProps({
@@ -41,15 +42,21 @@ const props = defineProps({
 
 // 使用传入的 scrollToSection 方法或提供默认实现
 const handleScrollToSection = (sectionId) => {
-  if (props.scrollToSection) {
+  // 优先使用传入的有效函数
+  if (typeof props.scrollToSection === 'function') {
     props.scrollToSection(sectionId);
-  } else {
-    // 如果没有传入方法，则尝试使用默认导入
-    import('@/hooks/load.js').then(module => {
-      module.scrollToSection(sectionId);
-    }).catch(() => {
-      console.warn(`scrollToSection for ${sectionId} not found`);
+    return;
+  }
+
+  // 原生 fallback（更可靠）
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
     });
+  } else {
+    console.warn(`[Sidebar] Section #${sectionId} not found`);
   }
 };
 </script>
@@ -60,11 +67,11 @@ const handleScrollToSection = (sectionId) => {
   right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  width: 50px;
+  width: 60px;
   background: linear-gradient(135deg, rgba(30, 40, 50, 0.9), rgba(20, 30, 40, 0.95));
   backdrop-filter: blur(15px);
   border-radius: 80px;
-  padding: 20px 15px;
+  padding:0 5px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(66, 185, 131, 0.2);
   z-index: 999;

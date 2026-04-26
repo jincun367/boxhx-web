@@ -33,14 +33,14 @@ const handleButtonClick = (link) => {
             <div class="card-actions">
               <el-button 
                 type="primary" 
-                size="medium"
+                size="default"
                 @click="handleButtonClick(item.link)"
               >
                 {{ item.buttonText }}
               </el-button>
               <el-button 
                 type="default" 
-                size="medium"
+                size="default"
                 @click="handleButtonClick(item.answer)"
               >
                 {{ item.answerText }}

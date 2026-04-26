@@ -5,6 +5,7 @@ import Aiuntil from './Ai/Aiuntil.vue'
 import StudyPlan from './plan/studyplan.vue'
 import SideBar from './side/sidebar.vue'  // 导入资源中心专属侧边栏组件
 import { scrollToSection } from '@/hooks/load.js'
+
 </script>
 
 <template>
@@ -13,21 +14,21 @@ import { scrollToSection } from '@/hooks/load.js'
       <div class="main-content">
         <!-- 四六级板块 -->
         <div id="cet" class="content-section">
-          <h2><span class="section-anchor" @click="scrollToSection('cet')">#</span> 四六级</h2>
+          <h2><span class="section-anchor" @click="scrollToResourceSection('cet')">#</span> 四六级</h2>
           <hr class="hrstyle">
           <Cet />
         </div>
         
         <!-- 考研板块 -->
         <div id="postgraduate" class="content-section">
-          <h2><span class="section-anchor" @click="scrollToSection('postgraduate')">#</span> 考研</h2>
+          <h2><span class="section-anchor" @click="scrollToResourceSection('postgraduate')">#</span> 考研</h2>
           <hr class="hrstyle">
           <Study />
         </div>
         
         <!-- AI工具板块 -->
         <div id="ai-tools" class="content-section">
-          <h2><span class="section-anchor" @click="scrollToSection('ai-tools')">#</span> AI工具</h2>
+          <h2><span class="section-anchor" @click="scrollToResourceSection('ai-tools')">#</span> AI工具</h2>
           <hr class="hrstyle">
           <Aiuntil />
           <hr class="hrstyle">
@@ -35,14 +36,14 @@ import { scrollToSection } from '@/hooks/load.js'
         
         <!-- 学习计划板块 -->
         <div id="study-plan" class="content-section">
-          <h2><span class="section-anchor" @click="scrollToSection('study-plan')">#</span> 学习计划</h2>
+          <h2><span class="section-anchor" @click="scrollToResourceSection('study-plan')">#</span> 学习计划</h2>
           <hr class="hrstyle">
           <StudyPlan />
         </div>
         
 
       </div>
-      <SideBar :scrollToSection="scrollToSection" />
+      <SideBar :scrollToSection="scrollToResourceSection" />
     </div>
   </div>
 </template>

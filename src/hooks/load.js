@@ -19,8 +19,14 @@ const getNavbarHeight = () => {
   
   // 否则重新查询
   cachedNavbar = document.querySelector('.navigation-container');
-  cachedNavbarHeight = cachedNavbar ? cachedNavbar.offsetHeight : 64;
   
+  // 如果导航栏不存在，返回0（适用于没有导航栏的页面）
+  if (!cachedNavbar) {
+    cachedNavbarHeight = 0;
+    return 0;
+  }
+  
+  cachedNavbarHeight = cachedNavbar.offsetHeight;
   return cachedNavbarHeight;
 };
 
@@ -43,8 +49,13 @@ export const scrollToSection = (elementId) => {
   // 获取导航栏高度
   const navbarHeight = getNavbarHeight();
   
-  // 计算目标位置（元素顶部位置 - 导航栏高度）
-  const targetPosition = targetElement.offsetTop - navbarHeight;
+  // 使用getBoundingClientRect()获取更准确的元素位置
+  const targetRect = targetElement.getBoundingClientRect();
+  const currentScrollY = window.scrollY || window.pageYOffset;
+  
+  // 计算目标位置（考虑sticky导航栏）
+  const targetPosition = currentScrollY + targetRect.top - navbarHeight;
+  
   
   // 平滑滚动到目标位置
   window.scrollTo({
